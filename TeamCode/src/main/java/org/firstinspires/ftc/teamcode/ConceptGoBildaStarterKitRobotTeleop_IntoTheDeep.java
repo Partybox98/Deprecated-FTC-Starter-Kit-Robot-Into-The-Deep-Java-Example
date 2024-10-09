@@ -232,11 +232,11 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
             if (gamepad1.a) {
                 intake.setPower(INTAKE_COLLECT);
             }
-            else if (gamepad1.x) {
-                intake.setPower(INTAKE_OFF);
-            }
             else if (gamepad1.b) {
                 intake.setPower(INTAKE_DEPOSIT);
+            }
+            else {
+                intake.setPower(INTAKE_OFF);
             }
 
 
@@ -261,9 +261,9 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
 
             if(gamepad1.right_bumper){
                 /* This is the intaking/collecting arm position */
-                armPosition = ARM_COLLECT;
+//                armPosition = ARM_COLLECT;
 
-                intake.setPower(INTAKE_COLLECT);
+//                intake.setPower(INTAKE_COLLECT);
                 }
 
                 else if (gamepad1.left_bumper){
@@ -271,7 +271,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
                     Note here that we don't set the wrist position or the intake power when we
                     select this "mode", this means that the intake and wrist will continue what
                     they were doing before we clicked left bumper. */
-                    armPosition = ARM_CLEAR_BARRIER;
+//                    armPosition = ARM_CLEAR_BARRIER;
                 }
 
                 else if (gamepad1.y){
@@ -311,7 +311,12 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
             /* Here we set the target position of our arm to match the variable that was selected
             by the driver.
             We also set the target velocity (speed) the motor runs at, and use setMode to run it.*/
+
             armMotor.setTargetPosition((int) (armPosition  +armPositionFudgeFactor));
+            if (gamepad1.x) {
+                armMotor.setTargetPosition(armMotor.getTargetPosition());
+            }
+
 
             ((DcMotorEx) armMotor).setVelocity(2100);
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
