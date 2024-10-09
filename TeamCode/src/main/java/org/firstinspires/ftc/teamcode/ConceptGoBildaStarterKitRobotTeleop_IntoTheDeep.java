@@ -120,7 +120,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
     final double WRIST_FOLDED_OUT  = 0.5;
 
     /* A number in degrees that the triggers can adjust the arm position by */
-    final double FUDGE_FACTOR = 15 * ARM_TICKS_PER_DEGREE;
+    final double FUDGE_FACTOR = 5 * ARM_TICKS_PER_DEGREE; //changed to 5 from 15
 
     /* Variables that are used to set the arm to a specific position */
     double armPosition = (int)ARM_COLLAPSED_INTO_ROBOT;
@@ -292,22 +292,23 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
 
                 else if (gamepad1.dpad_right){
                     /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
-                    armPosition = ARM_SCORE_SPECIMEN;
+//                    armPosition = ARM_SCORE_SPECIMEN;
 
                 }
 
                 else if (gamepad1.dpad_up){
                     /* This sets the arm to vertical to hook onto the LOW RUNG for hanging */
-                    armPosition = ARM_ATTACH_HANGING_HOOK;
-                    intake.setPower(INTAKE_OFF);
+//                    armPosition = ARM_ATTACH_HANGING_HOOK;
+//                    intake.setPower(INTAKE_OFF);
+                intake.setPower(intake.getPower()-1);
 
                 }
 
                 else if (gamepad1.dpad_down){
                     /* this moves the arm down to lift the robot up once it has been hooked */
-                    armPosition = ARM_WINCH_ROBOT;
-                    intake.setPower(INTAKE_OFF);
-
+//                    armPosition = ARM_WINCH_ROBOT;
+//                    intake.setPower(INTAKE_OFF);
+                      intake.setPower(intake.getPower()+1);
             }
 
             /* Here we set the target position of our arm to match the variable that was selected
