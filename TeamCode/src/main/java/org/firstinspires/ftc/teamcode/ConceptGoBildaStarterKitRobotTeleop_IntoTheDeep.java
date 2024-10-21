@@ -27,7 +27,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
@@ -75,7 +74,6 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
     public DcMotor  rightDrive  = null; //the right drivetrain motor
     public DcMotor  armMotor    = null; //the arm motor
     public CRServo  intake      = null; //the active intake servo
-
 
     /* This constant is the number of encoder ticks for each degree of rotation of the arm.
     To find this, we first need to consider the total gear reduction powering our arm.
@@ -126,6 +124,35 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
 
     boolean killSwitch = false;
 
+    public float goTo(DcMotor armMotor,float curPos, float goal) {
+        int power = 1;
+        if (curPos > goal) {
+            armMotor.setDirection(DcMotor.Direction.FORWARD);
+            armMotor.setPower(power);
+        } else if (curPos < goal) {
+            armMotor.setDirection(DcMotor.Direction.REVERSE);
+            armMotor.setPower(power);
+        } else {
+            armMotor.setPower(0);
+        }
+        return goal;
+    }
+
+    public float goTo(DcMotor armMotor,float curPos, float goal,int power) {
+        if (curPos > goal) {
+            armMotor.setDirection(DcMotor.Direction.FORWARD);
+            armMotor.setPower(power);
+        } else if (curPos < goal) {
+            armMotor.setDirection(DcMotor.Direction.REVERSE);
+            armMotor.setPower(power);
+        } else {
+            armMotor.setPower(0);
+        }
+        return goal;
+    }
+    /*must delete one of these methods can only be one with the same name also this
+    method can't be defined in another method but can be defined inside this class
+     */
 
     @Override
     public void runOpMode() {
@@ -358,4 +385,6 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
 
         }
     }
+
+
 }
