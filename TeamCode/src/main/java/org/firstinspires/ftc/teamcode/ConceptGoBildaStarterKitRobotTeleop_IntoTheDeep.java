@@ -122,7 +122,6 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
     double armPosition = (int)ARM_COLLAPSED_INTO_ROBOT;
     double armPositionFudgeFactor;
 
-<<<<<<< HEAD
     boolean killSwitch = false;
 
     public float goTo(DcMotor armMotor,float curPos, float goal) {
@@ -154,9 +153,6 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
     /*must delete one of these methods can only be one with the same name also this
     method can't be defined in another method but can be defined inside this class
      */
-=======
->>>>>>> parent of 10dd5bc (Changed from run_to_position to run using encoder)
-
     @Override
     public void runOpMode() {
         /*
@@ -184,9 +180,9 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
         /* Setting zeroPowerBehavior to BRAKE enables a "brake mode". This causes the motor to slow down
         much faster when it is coasting. This creates a much more controllable drivetrain. As the robot
         stops much quicker. */
-        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /*This sets the maximum current that the control hub will apply to the arm before throwing a flag */
         ((DcMotorEx) armMotor).setCurrentAlert(5,CurrentUnit.AMPS);
@@ -343,13 +339,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
             by the driver.
             We also set the target velocity (speed) the motor runs at, and use setMode to run it.*/
 
-            armMotor.setTargetPosition((int) (armPosition  +armPositionFudgeFactor));
-<<<<<<< HEAD
-=======
-            if (gamepad1.x) {
-                armMotor.setTargetPosition(armMotor.getTargetPosition());
-            }
->>>>>>> parent of 10dd5bc (Changed from run_to_position to run using encoder)
+            armMotor.setTargetPosition((int) (armPosition + armPositionFudgeFactor));
 
 
             ((DcMotorEx) armMotor).setVelocity(2100);
