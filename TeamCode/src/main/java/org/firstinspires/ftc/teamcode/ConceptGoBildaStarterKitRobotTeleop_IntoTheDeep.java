@@ -27,7 +27,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
@@ -76,7 +75,6 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
     public DcMotor  armMotor    = null; //the arm motor
     public CRServo  intake      = null; //the active intake servo
 
-
     /* This constant is the number of encoder ticks for each degree of rotation of the arm.
     To find this, we first need to consider the total gear reduction powering our arm.
     First, we have an external 20t:100t (5:1) reduction created by two spur gears.
@@ -124,7 +122,37 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
     double armPosition = (int)ARM_COLLAPSED_INTO_ROBOT;
     double armPositionFudgeFactor;
 
+    boolean killSwitch = false;
 
+    public float goTo(DcMotor armMotor,float curPos, float goal) {
+        int power = 1;
+        if (curPos > goal) {
+            armMotor.setDirection(DcMotor.Direction.FORWARD);
+            armMotor.setPower(power);
+        } else if (curPos < goal) {
+            armMotor.setDirection(DcMotor.Direction.REVERSE);
+            armMotor.setPower(power);
+        } else {
+            armMotor.setPower(0);
+        }
+        return goal;
+    }
+
+    public float goTo(DcMotor armMotor,float curPos, float goal,int power) {
+        if (curPos > goal) {
+            armMotor.setDirection(DcMotor.Direction.FORWARD);
+            armMotor.setPower(power);
+        } else if (curPos < goal) {
+            armMotor.setDirection(DcMotor.Direction.REVERSE);
+            armMotor.setPower(power);
+        } else {
+            armMotor.setPower(0);
+        }
+        return goal;
+    }
+    /*must delete one of these methods can only be one with the same name also this
+    method can't be defined in another method but can be defined inside this class
+     */
     @Override
     public void runOpMode() {
         /*
@@ -152,9 +180,9 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
         /* Setting zeroPowerBehavior to BRAKE enables a "brake mode". This causes the motor to slow down
         much faster when it is coasting. This creates a much more controllable drivetrain. As the robot
         stops much quicker. */
-        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /*This sets the maximum current that the control hub will apply to the arm before throwing a flag */
         ((DcMotorEx) armMotor).setCurrentAlert(5,CurrentUnit.AMPS);
@@ -283,7 +311,6 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
                     /* This turns off the intake, folds in the wrist, and moves the arm
                     back to folded inside the robot. This is also the starting configuration */
                     armPosition = ARM_COLLAPSED_INTO_ROBOT;
-                    intake.setPower(INTAKE_OFF);
 
                 }
 
@@ -312,10 +339,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
             by the driver.
             We also set the target velocity (speed) the motor runs at, and use setMode to run it.*/
 
-            armMotor.setTargetPosition((int) (armPosition  +armPositionFudgeFactor));
-            if (gamepad1.x) {
-                armMotor.setTargetPosition(armMotor.getTargetPosition());
-            }
+            armMotor.setTargetPosition((int) (armPosition + armPositionFudgeFactor));
 
 
             ((DcMotorEx) armMotor).setVelocity(2100);
@@ -354,4 +378,6 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
 
         }
     }
+
+
 }
