@@ -320,7 +320,6 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
                     /* This turns off the intake, folds in the wrist, and moves the arm
                     back to folded inside the robot. This is also the starting configuration */
                     armPosition = ARM_COLLAPSED_INTO_ROBOT;
-                    intake.setPower(INTAKE_OFF);
 
                 }
 
@@ -346,7 +345,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
             by the driver.
             We also set the target velocity (speed) the motor runs at, and use setMode to run it.*/
 
-//            armMotor.setTargetPosition((int) (armPosition  +armPositionFudgeFactor));
+            armMotor.setTargetPosition((int) (armPosition  +armPositionFudgeFactor));
 
 
 
