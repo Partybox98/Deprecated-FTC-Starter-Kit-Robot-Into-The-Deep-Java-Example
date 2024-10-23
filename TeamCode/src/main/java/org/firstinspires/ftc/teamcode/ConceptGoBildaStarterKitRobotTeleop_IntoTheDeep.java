@@ -127,32 +127,6 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
 
     boolean killSwitch = false;
 
-    public float goTo(DcMotor armMotor,float curPos, float goal) {
-        int power = 1;
-        if (curPos > goal) {
-            armMotor.setDirection(DcMotor.Direction.FORWARD);
-            armMotor.setPower(power);
-        } else if (curPos < goal) {
-            armMotor.setDirection(DcMotor.Direction.REVERSE);
-            armMotor.setPower(power);
-        } else {
-            armMotor.setPower(0);
-        }
-        return goal;
-    }
-
-    public float goTo(DcMotor armMotor,float curPos, float goal,int power) {
-        if (curPos > goal) {
-            armMotor.setDirection(DcMotor.Direction.FORWARD);
-            armMotor.setPower(power);
-        } else if (curPos < goal) {
-            armMotor.setDirection(DcMotor.Direction.REVERSE);
-            armMotor.setPower(power);
-        } else {
-            armMotor.setPower(0);
-        }
-        return goal;
-    }
     /*must delete one of these methods can only be one with the same name also this
     method can't be defined in another method but can be defined inside this class
      */
@@ -215,7 +189,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
         waitForStart();
 
         /* Run until the driver presses stop */
-        while (opModeIsActive()) {
+        while (opModeIsActive() && !killSwitch) {
 
             /* Set the drive and turn variables to follow the joysticks on the gamepad.
             the joysticks decrease as you push them up. So reverse the Y axis. */
@@ -270,6 +244,10 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
                 intake.setPower(INTAKE_OFF);
             }
 
+            if (gamepad1.x) {
+                killSwitch = true;
+            }
+
 
             /* Here we create a "fudge factor" for the arm position.
             This allows you to adjust (or "fudge") the arm position slightly with the gamepad triggers.
@@ -307,13 +285,13 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
 
                 else if (gamepad1.y){
                     /* This is the correct height to score the sample in the LOW BASKET */
-                    armPosition = ARM_SCORE_SAMPLE_IN_LOW;
+//                    armPosition = ARM_SCORE_SAMPLE_IN_LOW;
                 }
 
                 else if (gamepad1.dpad_left) {
                     /* This turns off the intake, folds in the wrist, and moves the arm
                     back to folded inside the robot. This is also the starting configuration */
-                    armPosition = ARM_COLLAPSED_INTO_ROBOT;
+//                    armPosition = ARM_COLLAPSED_INTO_ROBOT;
 
                 }
 
@@ -327,7 +305,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
                     /* This sets the arm to vertical to hook onto the LOW RUNG for hanging */
 //                    armPosition = ARM_ATTACH_HANGING_HOOK;
 //                    intake.setPower(INTAKE_OFF);
-                intake.setPower(intake.getPower()-1);
+                    intake.setPower(intake.getPower()-1);
 
                 }
 
@@ -342,7 +320,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
             by the driver.
             We also set the target velocity (speed) the motor runs at, and use setMode to run it.*/
 
-            
+
             armMotor.setTargetPosition((int) (armPosition + armPositionFudgeFactor));
 
 
@@ -378,6 +356,8 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends LinearOpMod
             /* send telemetry to the driver of the arm's current position and target position */
             telemetry.addData("armTarget: ", armMotor.getTargetPosition());
             telemetry.addData("arm Encoder: ", armMotor.getCurrentPosition());
+            telemetry.addData("left trigger: ", gamepad1.left_trigger);
+            telemetry.addData("Right trigger: ", gamepad1.right_trigger);
             telemetry.update();
 
         }
