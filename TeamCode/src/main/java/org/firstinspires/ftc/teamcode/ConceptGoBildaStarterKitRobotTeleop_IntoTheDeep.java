@@ -66,15 +66,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
  */
 
 
-@TeleOp(name="FTC Starter Kit Example Robot (INTO THE DEEP)", group="Robot")
+@TeleOp(name="FTC Strafer Kit Example Robot (INTO THE DEEP)", group="Robot")
 //@Disabled
 public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinearOpMode {
 
     /* Declare OpMode members. */
-    public DcMotor  leftDrive   = null; //the left drivetrain motor
-    public DcMotor  rightDrive  = null; //the right drivetrain motor
-    public DcMotor  armMotor    = null; //the arm motor
-    public CRServo  intake      = null; //the active intake servo
+    public DcMotor  leftFrontDrive   = null; //the left front drivetrain motor
+    public DcMotor  rightFrontDrive  = null; //the right front drivetrain motor
+    public DcMotor  rightBackDrive  = null; //the right back drivetrain motor
+    public DcMotor  leftBackDrive  = null; //the left back drivetrain motor
+//    public DcMotor  armMotor    = null; //the arm motor
+//    public CRServo  intake      = null; //the active intake servo
 
 
     /* This constant is the number of encoder ticks for each degree of rotation of the arm.
@@ -143,16 +145,19 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
 
 
         /* Define and Initialize Motors */
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_front_drive"); //the left drivetrain motor
-        rightDrive = hardwareMap.get(DcMotor.class, "right_front_drive"); //the right drivetrain motor
-        armMotor   = hardwareMap.get(DcMotor.class, "left_arm"); //the arm motor
+        leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive"); //the left front drivetrain motor
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive"); //the right front drivetrain motor
+        leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive"); //the left drivetrain motor
+        rightBackDrive  = hardwareMap.get(DcMotor.class, "right_back_drive"); //the left drivetrain motor
+//        armMotor   = hardwareMap.get(DcMotor.class, "left_arm"); //the arm motor
 
 
         /* Most skid-steer/differential drive robots require reversing one motor to drive forward.
         for this robot, we reverse the right motor.*/
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
-
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         /* Setting zeroPowerBehavior to BRAKE enables a "brake mode". This causes the motor to slow down
         much faster when it is coasting. This creates a much more controllable drivetrain. As the robot
@@ -162,23 +167,23 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
 //        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /*This sets the maximum current that the control hub will apply to the arm before throwing a flag */
-        ((DcMotorEx) armMotor).setCurrentAlert(5,CurrentUnit.AMPS);
+//        ((DcMotorEx) armMotor).setCurrentAlert(5,CurrentUnit.AMPS);
 
 
         /* Before starting the armMotor. We'll make sure the TargetPosition is set to 0.
         Then we'll set the RunMode to RUN_TO_POSITION. And we'll ask it to stop and reset encoder.
         If you do not have the encoder plugged into this motor, it will not run in this code. */
-        armMotor.setTargetPosition(0);
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        armMotor.setTargetPosition(0);
+//        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         /* Define and initialize servos.*/
-        intake = hardwareMap.get(CRServo.class, "intake");
+//        intake = hardwareMap.get(CRServo.class, "intake");
 
 
         /* Make sure that the intake is off, and the wrist is folded in. */
-        intake.setPower(INTAKE_OFF);
+//        intake.setPower(INTAKE_OFF);
 
 
         /* Send telemetry message to signify robot waiting */
@@ -215,8 +220,10 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
             }
 
             /* Set the motor power to the variables we've mixed and normalized */
-            leftDrive.setPower(left);
-            rightDrive.setPower(right);
+            leftFrontDrive.setPower(left);
+            rightFrontDrive.setPower(right);
+            leftBackDrive.setPower(left);
+            rightBackDrive.setPower(right);
 
 
 
@@ -235,13 +242,13 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
             one cycle. Which can cause strange behavior. */
 
             if (gamepad1.a) {
-                intake.setPower(INTAKE_COLLECT);
+//                intake.setPower(INTAKE_COLLECT);
             }
             else if (gamepad1.b) {
-                intake.setPower(INTAKE_DEPOSIT);
+//                intake.setPower(INTAKE_DEPOSIT);
             }
             else {
-                intake.setPower(INTAKE_OFF);
+//                intake.setPower(INTAKE_OFF);
             }
 
             if (gamepad1.x) {
@@ -305,7 +312,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
                     /* This sets the arm to vertical to hook onto the LOW RUNG for hanging */
 //                    armPosition = ARM_ATTACH_HANGING_HOOK;
 //                    intake.setPower(INTAKE_OFF);
-                    intake.setPower(intake.getPower()-1);
+//                    intake.setPower(intake.getPower()-1);
 
                 }
 
@@ -313,7 +320,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
                     /* this moves the arm down to lift the robot up once it has been hooked */
 //                    armPosition = ARM_WINCH_ROBOT;
 //                    intake.setPower(INTAKE_OFF);
-                      intake.setPower(intake.getPower()+1);
+//                      intake.setPower(intake.getPower()+1);
             }
 
             /* Here we set the target position of our arm to match the variable that was selected
@@ -321,11 +328,11 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
             We also set the target velocity (speed) the motor runs at, and use setMode to run it.*/
 
 
-            armMotor.setTargetPosition((int) (armPosition + armPositionFudgeFactor));
-
-
-            ((DcMotorEx) armMotor).setVelocity(2100);
-            armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            armMotor.setTargetPosition((int) (armPosition + armPositionFudgeFactor));
+//
+//
+//            ((DcMotorEx) armMotor).setVelocity(2100);
+//            armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             /* TECH TIP: Encoders, integers, and doubles
             Encoders report when the motor has moved a specified angle. They send out pulses which
@@ -348,14 +355,14 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
             */
 
             /* Check to see if our arm is over the current limit, and report via telemetry. */
-            if (((DcMotorEx) armMotor).isOverCurrent()){
-                telemetry.addLine("MOTOR EXCEEDED CURRENT LIMIT!");
-            }
+//            if (((DcMotorEx) armMotor).isOverCurrent()){
+//                telemetry.addLine("MOTOR EXCEEDED CURRENT LIMIT!");
+//            }
 
 
             /* send telemetry to the driver of the arm's current position and target position */
-            telemetry.addData("armTarget: ", armMotor.getTargetPosition());
-            telemetry.addData("arm Encoder: ", armMotor.getCurrentPosition());
+//            telemetry.addData("armTarget: ", armMotor.getTargetPosition());
+//            telemetry.addData("arm Encoder: ", armMotor.getCurrentPosition());
             telemetry.addData("left trigger: ", gamepad1.left_trigger);
             telemetry.addData("Right trigger: ", gamepad1.right_trigger);
             telemetry.update();
