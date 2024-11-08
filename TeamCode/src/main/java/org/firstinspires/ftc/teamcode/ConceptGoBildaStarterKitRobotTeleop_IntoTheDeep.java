@@ -140,6 +140,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
         double left;
         double right;
         double forward;
+        double strafe;
         double rotate;
         double max;
 
@@ -198,8 +199,9 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
 
             /* Set the drive and turn variables to follow the joysticks on the gamepad.
             the joysticks decrease as you push them up. So reverse the Y axis. */
-            forward = -gamepad1.left_stick_y;
-            rotate  = gamepad1.right_stick_x;
+//            forward = -gamepad1.left_stick_y;
+//            strafe = -gamepad1.left_stick_x;
+//            rotate  = gamepad1.right_stick_x;
 
 
             /* Here we "mix" the input channels together to find the power to apply to each motor.
@@ -208,22 +210,32 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
             the right and left motors need to move in opposite directions. So we will add rotate to
             forward for the left motor, and subtract rotate from forward for the right motor. */
 
-            left  = forward + rotate;
-            right = forward - rotate;
-
-            /* Normalize the values so neither exceed +/- 1.0 */
-            max = Math.max(Math.abs(left), Math.abs(right));
-            if (max > 1.0)
-            {
-                left /= max;
-                right /= max;
-            }
+//            left  = forward + rotate;
+//            right = forward - rotate;
+//
+//            /* Normalize the values so neither exceed +/- 1.0 */
+//            max = Math.max(Math.abs(left), Math.abs(right));
+//            if (max > 1.0)
+//            {
+//                left /= max;
+//                right /= max;
+//            }
 
             /* Set the motor power to the variables we've mixed and normalized */
-            leftFrontDrive.setPower(left);
-            rightFrontDrive.setPower(right);
-            leftBackDrive.setPower(left);
-            rightBackDrive.setPower(right);
+//            leftFrontDrive.setPower(left);
+//            rightFrontDrive.setPower(right);
+//            leftBackDrive.setPower(left);
+//            rightBackDrive.setPower(right);
+
+
+            rightFrontDrive.setPower(gamepad1.left_stick_y - (gamepad1.left_stick_x + gamepad1.right_stick_x));
+            leftFrontDrive.setPower(gamepad1.left_stick_y + (gamepad1.left_stick_x + gamepad1.right_stick_x));
+            rightBackDrive.setPower(gamepad1.left_stick_y + (gamepad1.left_stick_x - gamepad1.right_stick_x));
+            leftBackDrive.setPower(gamepad1.left_stick_y - (gamepad1.left_stick_x - gamepad1.right_stick_x));
+//            rightFrontDrive.spin(forward);
+//            leftFrontDrive.spin(forward);
+//            rightBackDrive.spin(forward);
+//            leftBackDrive.spin(forward);
 
 
 
@@ -264,7 +276,7 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
             than the other, it "wins out". This variable is then multiplied by our FUDGE_FACTOR.
             The FUDGE_FACTOR is the number of degrees that we can adjust the arm by with this function. */
 
-            armPositionFudgeFactor = FUDGE_FACTOR * (gamepad1.right_trigger + (-gamepad1.left_trigger));
+//            armPositionFudgeFactor = FUDGE_FACTOR * (gamepad1.right_trigger + (-gamepad1.left_trigger));
 
 
 
