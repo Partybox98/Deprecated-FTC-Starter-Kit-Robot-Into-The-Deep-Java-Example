@@ -144,6 +144,11 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
         double rotate;
         double max;
 
+        double RFPower;
+        double LFPower;
+        double RBPower;
+        double LBPower;
+
 
         /* Define and Initialize Motors */
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive"); //the left front drivetrain motor
@@ -226,12 +231,22 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
 //            rightFrontDrive.setPower(right);
 //            leftBackDrive.setPower(left);
 //            rightBackDrive.setPower(right);
+            RFPower = gamepad1.left_stick_y - (gamepad1.left_stick_x + gamepad1.right_stick_x);
+            LFPower = gamepad1.left_stick_y + (gamepad1.left_stick_x + gamepad1.right_stick_x);
+            RBPower = gamepad1.left_stick_y + (gamepad1.left_stick_x - gamepad1.right_stick_x);
+            LBPower = gamepad1.left_stick_y - (gamepad1.left_stick_x - gamepad1.right_stick_x);
 
+            if ( (gamepad1.left_stick_x == 0) && (gamepad1.left_stick_y == 0) && (gamepad1.right_stick_x == 0) && (gamepad1.right_stick_y == 0) ){
+                RFPower = 0;
+                LFPower = 0;
+                RBPower = 0;
+                LBPower = 0;
+            }
 
-            rightFrontDrive.setPower(gamepad1.left_stick_y - (gamepad1.left_stick_x + gamepad1.right_stick_x));
-            leftFrontDrive.setPower(gamepad1.left_stick_y + (gamepad1.left_stick_x + gamepad1.right_stick_x));
-            rightBackDrive.setPower(gamepad1.left_stick_y + (gamepad1.left_stick_x - gamepad1.right_stick_x));
-            leftBackDrive.setPower(gamepad1.left_stick_y - (gamepad1.left_stick_x - gamepad1.right_stick_x));
+            rightFrontDrive.setPower(RFPower/2);
+            leftFrontDrive.setPower(LFPower/2);
+            rightBackDrive.setPower(RBPower/2);
+            leftBackDrive.setPower(LBPower/2);
 //            rightFrontDrive.spin(forward);
 //            leftFrontDrive.spin(forward);
 //            rightBackDrive.spin(forward);
@@ -377,6 +392,16 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
 //            telemetry.addData("arm Encoder: ", armMotor.getCurrentPosition());
             telemetry.addData("left trigger: ", gamepad1.left_trigger);
             telemetry.addData("Right trigger: ", gamepad1.right_trigger);
+            telemetry.addData("------", "");
+            telemetry.addData("RFPower ",RFPower);
+            telemetry.addData("LFPower ",LFPower);
+            telemetry.addData("RBPower ",RBPower);
+            telemetry.addData("LBPower ",LBPower);
+            telemetry.addData("------", "");
+            telemetry.addData("left Stick x: ", gamepad1.left_stick_x);
+            telemetry.addData("Right Stick x: ", gamepad1.right_stick_x);
+            telemetry.addData("left Stick y: ", gamepad1.left_stick_y);
+            telemetry.addData("Right Stick y: ", gamepad1.right_stick_y);
             telemetry.update();
 
         }
