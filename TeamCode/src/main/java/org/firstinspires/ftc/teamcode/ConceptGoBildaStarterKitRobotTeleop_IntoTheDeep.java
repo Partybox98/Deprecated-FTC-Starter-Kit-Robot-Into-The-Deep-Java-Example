@@ -161,9 +161,9 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
         /* Most skid-steer/differential drive robots require reversing one motor to drive forward.
         for this robot, we reverse the right motor.*/
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         /* Setting zeroPowerBehavior to BRAKE enables a "brake mode". This causes the motor to slow down
         much faster when it is coasting. This creates a much more controllable drivetrain. As the robot
@@ -231,10 +231,10 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
 //            rightFrontDrive.setPower(right);
 //            leftBackDrive.setPower(left);
 //            rightBackDrive.setPower(right);
-            RFPower = gamepad1.left_stick_y - (gamepad1.left_stick_x + gamepad1.right_stick_x);
-            LFPower = gamepad1.left_stick_y + (gamepad1.left_stick_x + gamepad1.right_stick_x);
-            RBPower = gamepad1.left_stick_y + (gamepad1.left_stick_x - gamepad1.right_stick_x);
-            LBPower = gamepad1.left_stick_y - (gamepad1.left_stick_x - gamepad1.right_stick_x);
+            RFPower = gamepad1.right_stick_x - (gamepad1.left_stick_y + gamepad1.right_stick_x);
+            LFPower = gamepad1.right_stick_x + (gamepad1.left_stick_y + gamepad1.right_stick_x);
+            RBPower = gamepad1.right_stick_x + (gamepad1.left_stick_y - gamepad1.right_stick_x);
+            LBPower = gamepad1.right_stick_x - (gamepad1.left_stick_y - gamepad1.right_stick_x);
 
             if ( (gamepad1.left_stick_x == 0) && (gamepad1.left_stick_y == 0) && (gamepad1.right_stick_x == 0) && (gamepad1.right_stick_y == 0) ){
                 RFPower = 0;
