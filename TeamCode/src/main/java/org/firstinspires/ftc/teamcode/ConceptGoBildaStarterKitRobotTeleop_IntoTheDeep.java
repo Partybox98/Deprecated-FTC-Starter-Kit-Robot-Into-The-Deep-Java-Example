@@ -150,6 +150,8 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
         double RBPower;
         double LBPower;
 
+        double speedLimit = 1;
+
         double armPower;
 
 
@@ -212,9 +214,9 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
 
             /* Set the drive and turn variables to follow the joysticks on the gamepad.
             the joysticks decrease as you push them up. So reverse the Y axis. */
-//            forward = -gamepad1.left_stick_y;
+            forward = gamepad1.left_stick_y;
 //            strafe = -gamepad1.left_stick_x;
-//            rotate  = gamepad1.right_stick_x;
+            rotate  = -gamepad1.right_stick_x;
 
 
             /* Here we "mix" the input channels together to find the power to apply to each motor.
@@ -234,27 +236,21 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
 //                right /= max;
 //            }
 
-            /* Set the motor power to the variables we've mixed and normalized */
-//            leftFrontDrive.setPower(left);
-//            rightFrontDrive.setPower(right);
-//            leftBackDrive.setPower(left);
-//            rightBackDrive.setPower(right);
-            RFPower = gamepad1.right_stick_x - (gamepad1.left_stick_y + gamepad1.right_stick_x);
-            LFPower = gamepad1.right_stick_x + (gamepad1.left_stick_y + gamepad1.right_stick_x);
-            RBPower = gamepad1.right_stick_x + (gamepad1.left_stick_y - gamepad1.right_stick_x);
-            LBPower = gamepad1.right_stick_x - (gamepad1.left_stick_y - gamepad1.right_stick_x);
-
-            if ( (gamepad1.left_stick_x == 0) && (gamepad1.left_stick_y == 0) && (gamepad1.right_stick_x == 0) && (gamepad1.right_stick_y == 0) ){
-                RFPower = 0;
-                LFPower = 0;
-                RBPower = 0;
-                LBPower = 0;
+            if (gamepad1.a) {
+                speedLimit = 1;
+            } else {
+                speedLimit = 2;
             }
 
-            rightFrontDrive.setPower(RFPower/2);
-            leftFrontDrive.setPower(LFPower/2);
-            rightBackDrive.setPower(RBPower/2);
-            leftBackDrive.setPower(LBPower/2);
+            RFPower = rotate - (forward + rotate);
+            LFPower = rotate + (forward + rotate);
+            RBPower = rotate + (forward - rotate);
+            LBPower = rotate - (forward - rotate);
+
+            rightFrontDrive.setPower(RFPower/speedLimit);
+            leftFrontDrive.setPower(LFPower/speedLimit);
+            rightBackDrive.setPower(RBPower/speedLimit);
+            leftBackDrive.setPower(LBPower/speedLimit);
 //            rightFrontDrive.spin(forward);
 //            leftFrontDrive.spin(forward);
 //            rightBackDrive.spin(forward);
@@ -283,10 +279,8 @@ public class ConceptGoBildaStarterKitRobotTeleop_IntoTheDeep extends RobotLinear
             three if statements, then it will set the intake servo's power to multiple speeds in
             one cycle. Which can cause strange behavior. */
 
-            if (gamepad1.a) {
-//                intake.setPower(INTAKE_COLLECT);
-            }
-            else if (gamepad1.b) {
+
+            if (gamepad1.b) {
 //                intake.setPower(INTAKE_DEPOSIT);
             }
             else {
